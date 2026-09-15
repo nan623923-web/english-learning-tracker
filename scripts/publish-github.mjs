@@ -15,11 +15,16 @@ const sourceFiles = [
   'tailwind.config.ts', 'postcss.config.js', 'nest-cli.json', 'components.json',
   'eslint.config.js', '.stylelintrc.js', '.prettierrc', 'PUBLIC-README.md',
 ];
-const allowedExtension = /\.(?:tsx?|mts|mjs|cjs|js|json|css|html|svg|md|sh)$/;
+const allowedExtension = /\.(?:tsx?|mts|mjs|cjs|js|json|css|html|svg|md|sh|jpe?g)$/;
 const entries = [];
+const binaries = [];
 const decoder = new TextDecoder('utf-8', { fatal: true });
 function include(relative) {
   const bytes = fs.readFileSync(path.join(root, relative));
+  if (/\.jpe?g$/i.test(relative)) {
+    binaries.push({ path: relative, mode: '100644', type: 'blob', bytes });
+    return;
+  }
   const content = decoder.decode(bytes);
   const credentialPattern = /(?:postgres(?:ql)?:\/\/|gh[pousr]_[a-zA-Z0-9]{30,}|github_pat_[a-zA-Z0-9_]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)/;
   if (credentialPattern.test(content)) throw new Error(`Credential-like content found in ${relative}; stopped.`);
@@ -37,7 +42,7 @@ sourceDirectories.forEach(walk);
 sourceFiles.forEach(include);
 entries.push({ path: '.gitignore', mode: '100644', type: 'blob', content: 'node_modules/\ndist/\n.env\n.env.*\n.spark/\n.spark_project\n.logs/\nlogs/\n.agents/\n.claude/\n.DS_Store\n*.tsbuildinfo\n' });
 entries.push({ path: 'docs/.nojekyll', mode: '100644', type: 'blob', content: '' });
-console.log(`Prepared ${entries.length} public files; environment files, local history and logs excluded.`);
+console.log(`Prepared ${entries.length + binaries.length} public files; environment files, local history and logs excluded.`);
 if (!process.argv.includes('--check')) {
   function api(endpoint, method = 'GET', body) {
     const args = ['api', endpoint, '--method', method];
@@ -74,13 +79,25 @@ if (!process.argv.includes('--check')) {
   const branch = repository.default_branch;
   const ref = api(`${repoPath}/git/ref/heads/${branch}`);
   const previous = api(`${repoPath}/git/commits/${ref.object.sha}`);
+  for (const binary of binaries) {
+    const blob = api(`${repoPath}/git/blobs`, 'POST', {
+      content: binary.bytes.toString('base64'), encoding: 'base64',
+    });
+    entries.push({ path: binary.path, mode: binary.mode, type: binary.type, sha: blob.sha });
+  }
   const tree = api(`${repoPath}/git/trees`, 'POST', { base_tree: previous.tree.sha, tree: entries });
   const commit = api(`${repoPath}/git/commits`, 'POST', {
     message: 'Publish English learning dashboard with neon mint theme',
     tree: tree.sha, parents: [ref.object.sha],
   });
   api(`${repoPath}/git/refs/heads/${branch}`, 'PATCH', { sha: commit.sha, force: false });
-  const pages = api(`${repoPath}/pages`, 'POST', { build_type: 'legacy', source: { branch, path: '/docs' } });
+  let pages;
+  try {
+    pages = api(`${repoPath}/pages`);
+  } catch (error) {
+    if (!/404 Not Found|Not Found/i.test(String(error.stderr || error.message))) throw error;
+    pages = api(`${repoPath}/pages`, 'POST', { build_type: 'legacy', source: { branch, path: '/docs' } });
+  }
   console.log(JSON.stringify({ repository: repository.html_url, page: pages.html_url, commit: commit.sha, status: pages.status }, null, 2));
   console.log('Pages requested. Verify the build status and public URL before claiming it is live.');
 }

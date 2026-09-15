@@ -86,12 +86,12 @@ textarea {
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-.brand-mark span {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 30px;
-  font-style: italic;
-  color: #072017;
-  letter-spacing: 0.06em;
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
 }
 
 .profile-kicker,

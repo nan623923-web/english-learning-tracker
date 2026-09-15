@@ -12,6 +12,7 @@ import DashboardStats from './DashboardStats';
 import type { DashboardStats as DashboardStatsValue } from './date-utils';
 import { calculateStats, getShanghaiToday } from './date-utils';
 import ProgressPanels from './ProgressPanels';
+import avatar from '@/assets/profile-avatar.jpg';
 
 const CheckinsPage: React.FC = () => {
   const today: string = getShanghaiToday();
@@ -100,8 +101,8 @@ const CheckinsPage: React.FC = () => {
       <div className="ambient-glow ambient-glow-right" />
       <div className="dashboard-shell">
         <header className="dashboard-header">
-          <div className="brand-mark" aria-hidden="true">
-            <span>EN</span>
+          <div className="brand-mark">
+            <img src={avatar} alt="nan 的头像" />
           </div>
           <p className="profile-kicker">MY ENGLISH ARCHIVE</p>
           <h1>nan</h1>

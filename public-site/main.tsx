@@ -7,6 +7,7 @@ import ProgressPanels from '../client/src/pages/checkins/ProgressPanels';
 import { calculateStats, getShanghaiToday } from '../client/src/pages/checkins/date-utils';
 import type { StudyCheckin } from '../shared/api.interface';
 import records from './records.json';
+import avatar from '../client/src/assets/profile-avatar.jpg';
 import '../client/src/index.css';
 import './public.css';
 
@@ -30,12 +31,14 @@ function PublicPage() {
       <div className="ambient-glow ambient-glow-right" />
       <div className="dashboard-shell">
         <header className="dashboard-header">
-          <div className="brand-mark" aria-hidden="true"><span>EN</span></div>
+          <div className="brand-mark"><img src={avatar} alt="nan 的头像" /></div>
           <p className="profile-kicker">MY ENGLISH ARCHIVE</p>
           <h1>nan</h1>
           <p className="profile-subtitle"><BookOpen /> Friends × English Originals</p>
           <span className="public-status">持续学习中</span>
         </header>
+        <ActivityHeatmap items={items} year={year} onYearChange={setYear} onSelectDate={setSelected} readOnly />
+        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `学习 ${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} 分钟` : '暂无打卡记录'}</p>}
         <DashboardStats stats={stats} />
         <section className="dashboard-panel history-panel" aria-label="历史学习累计">
           <div><p className="eyebrow">BEFORE THE DAILY LOG</p><h2>历史学习累计</h2></div>
@@ -43,8 +46,6 @@ function PublicPage() {
           <p>{records.history.description}</p>
           <small>截至 {records.history.asOf} · 已计入总时长，按日统计从后续打卡开始。</small>
         </section>
-        <ActivityHeatmap items={items} year={year} onYearChange={setYear} onSelectDate={setSelected} readOnly />
-        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `学习 ${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} 分钟` : '暂无打卡记录'}</p>}
         <ProgressPanels items={items} onEdit={() => {}} readOnly />
         <footer className="dashboard-footer">每一次输入，都在让英语变得更自然。<br /><span>记录更新于 {records.updatedOn}</span></footer>
       </div>

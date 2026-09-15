@@ -1,5 +1,5 @@
 {
   "extends": "../tsconfig.app.json",
   "compilerOptions": { "resolveJsonModule": true, "noEmit": true, "composite": false },
-  "include": ["./main.tsx", "./records.json", "../shared/api.interface.ts"]
+  "include": ["./main.tsx", "./records.json", "../shared/api.interface.ts", "../client/src/types/global.d.ts"]
 }
