@@ -1,0 +1,13 @@
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.public-status { padding: 8px 18px; border: 1px solid var(--learning-accent-border); border-radius: 999px; background: var(--learning-accent-surface); color: var(--learning-neon); font-size: 12px; }
+.history-panel { padding: 24px 30px; display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+.history-panel .eyebrow { margin: 0; }
+.history-panel h2 { font-size: 18px; margin-top: 6px; }
+.history-panel strong { color: var(--learning-neon); align-self: center; font-size: 22px; font-weight: 500; }
+.history-panel p:not(.eyebrow), .history-panel small { grid-column: 1 / -1; color: #9299a1; font-size: 12px; line-height: 1.7; }
+.selected-day { margin: 12px 0; color: var(--learning-accent-text); font-size: 12px; }
+.dashboard-footer span { display: inline-block; margin-top: 10px; font-family: sans-serif; font-size: 10px; }
+@media (max-width: 640px) {
+  .history-panel { padding: 21px 18px; grid-template-columns: 1fr; }
+  .history-panel strong { font-size: 20px; }
+}

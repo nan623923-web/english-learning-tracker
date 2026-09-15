@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.*
+.spark/
+.spark_project
+.logs/
+logs/
+.agents/
+.claude/
+.DS_Store
+*.tsbuildinfo
