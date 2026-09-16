@@ -15,7 +15,7 @@ const items: StudyCheckin[] = records.days.map(day => ({
   id: day.date, studyDate: day.date,
   friendsMinutes: day.friendsMinutes, readingMinutes: day.readingMinutes,
   otherMinutes: day.otherMinutes, friendsProgress: day.progress,
-  bookTitle: null, readingProgress: null, takeaway: null, notes: null,
+  bookTitle: null, readingProgress: null, takeaway: day.takeaway, notes: null,
   createdAt: `${day.date}T00:00:00Z`, updatedAt: `${day.date}T00:00:00Z`,
 }));
 
