@@ -1,5 +1,5 @@
 {
-  "updatedOn": "2026-09-18",
+  "updatedOn": "2026-09-24",
   "history": {
     "minutes": 3087,
     "description": "第一季25集＋第二季前11集，每集按4遍估算；第二季两遍英文字幕按1.2倍速。",
@@ -45,6 +45,46 @@
       "otherMinutes": 0,
       "progress": "老友记 S2E14 无字幕；S2E15 第2遍1.3倍速＋第3、4遍1.25倍速（完成）；S2E16 第1、2遍1.3倍速＋第3遍1.25倍速",
       "takeaway": "学习不再依赖固定电脑或额外物料：B站大会员＋手机音频＋电脑端 Reddit 即可随处开展。暂缓原著阅读，预计第二季结束后，以1.5倍速、三遍推进；首遍直接阅读英文原文。"
+    },
+    {
+      "date": "2026-09-19",
+      "friendsMinutes": 62,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E16 第3遍后半＋最后一遍（完成）；S2E17 第1遍",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-20",
+      "friendsMinutes": 90,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E18 第1、2遍＋S2E17 第3遍",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-21",
+      "friendsMinutes": 40,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E19 第1遍＋既有单词复习",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-22",
+      "friendsMinutes": 100,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E19、S2E20 各看1遍",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-24",
+      "friendsMinutes": 73,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "既有单词复习＋老友记 S2E20 再看1遍；S2E21 第1、2遍",
+      "takeaway": null
     }
   ]
 }
