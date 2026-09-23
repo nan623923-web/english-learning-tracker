@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -36,21 +37,17 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
     ))
     .map((item: StudyCheckin): string => item.studyDate)
     .sort((left: string, right: string): number => left.localeCompare(right));
-  const firstActiveDate: string | undefined = activeDates[0];
   const lastActiveDate: string | undefined = activeDates.at(-1);
-  const visibleStartDate: string | undefined = firstActiveDate
-    ? `${firstActiveDate.slice(0, 7)}-01`
-    : undefined;
-  const firstVisibleWeek: number = visibleStartDate
-    ? Math.max(0, weeks.findIndex((week: HeatmapWeek): boolean => (
-      week.cells.some((cell: HeatmapCell): boolean => cell.date >= visibleStartDate)
-    )))
-    : 0;
-  const lastVisibleWeekIndex: number = lastActiveDate
+  const today: string = getShanghaiToday();
+  const latestVisibleDate: string = lastActiveDate ?? (
+    year === Number(today.slice(0, 4)) ? today : `${year}-12-31`
+  );
+  const lastVisibleWeekIndex: number = latestVisibleDate
     ? weeks.findIndex((week: HeatmapWeek): boolean => (
-      week.cells.some((cell: HeatmapCell): boolean => cell.date === lastActiveDate)
+      week.cells.some((cell: HeatmapCell): boolean => cell.date === latestVisibleDate)
     ))
     : weeks.length - 1;
+  const firstVisibleWeek: number = 0;
   const lastVisibleWeek: number = lastVisibleWeekIndex >= firstVisibleWeek
     ? lastVisibleWeekIndex
     : weeks.length - 1;
@@ -63,7 +60,12 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       ...marker,
       column: marker.column - firstVisibleWeek,
     }));
-  const today: string = getShanghaiToday();
+  const heatmapScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect((): void => {
+    const element: HTMLDivElement | null = heatmapScrollRef.current;
+    if (element) element.scrollLeft = element.scrollWidth;
+  }, [year, lastVisibleWeek]);
 
   return (
     <section className="dashboard-panel heatmap-panel" aria-labelledby="activity-title">
@@ -95,7 +97,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
         </div>
       </div>
 
-      <div className="heatmap-scroll">
+      <div className="heatmap-scroll" ref={heatmapScrollRef}>
         <div className="heatmap-content">
           <div className="month-row" style={{ gridTemplateColumns: `repeat(${visibleWeeks.length}, 13px)` }}>
             {visibleMonthMarkers.map((marker: MonthMarker) => (
