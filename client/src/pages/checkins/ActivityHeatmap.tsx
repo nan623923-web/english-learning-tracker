@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import type { HeatmapCell, HeatmapWeek, MonthMarker } from './date-utils';
-import { buildHeatmap, formatDisplayDate } from './date-utils';
+import { buildHeatmap, formatDisplayDate, getShanghaiToday, totalMinutes } from './date-utils';
 import type { StudyCheckin } from '@shared/api.interface';
 
 interface ActivityHeatmapProps {
@@ -30,6 +30,40 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
     weeks: HeatmapWeek[];
     monthMarkers: MonthMarker[];
   } = buildHeatmap(year, items);
+  const activeDates: string[] = items
+    .filter((item: StudyCheckin): boolean => (
+      item.studyDate.startsWith(`${year}-`) && totalMinutes(item) > 0
+    ))
+    .map((item: StudyCheckin): string => item.studyDate)
+    .sort((left: string, right: string): number => left.localeCompare(right));
+  const firstActiveDate: string | undefined = activeDates[0];
+  const lastActiveDate: string | undefined = activeDates.at(-1);
+  const visibleStartDate: string | undefined = firstActiveDate
+    ? `${firstActiveDate.slice(0, 7)}-01`
+    : undefined;
+  const firstVisibleWeek: number = visibleStartDate
+    ? Math.max(0, weeks.findIndex((week: HeatmapWeek): boolean => (
+      week.cells.some((cell: HeatmapCell): boolean => cell.date >= visibleStartDate)
+    )))
+    : 0;
+  const lastVisibleWeekIndex: number = lastActiveDate
+    ? weeks.findIndex((week: HeatmapWeek): boolean => (
+      week.cells.some((cell: HeatmapCell): boolean => cell.date === lastActiveDate)
+    ))
+    : weeks.length - 1;
+  const lastVisibleWeek: number = lastVisibleWeekIndex >= firstVisibleWeek
+    ? lastVisibleWeekIndex
+    : weeks.length - 1;
+  const visibleWeeks: HeatmapWeek[] = weeks.slice(firstVisibleWeek, lastVisibleWeek + 1);
+  const visibleMonthMarkers: MonthMarker[] = monthMarkers
+    .filter((marker: MonthMarker): boolean => (
+      marker.column - 1 >= firstVisibleWeek && marker.column - 1 <= lastVisibleWeek
+    ))
+    .map((marker: MonthMarker): MonthMarker => ({
+      ...marker,
+      column: marker.column - firstVisibleWeek,
+    }));
+  const today: string = getShanghaiToday();
 
   return (
     <section className="dashboard-panel heatmap-panel" aria-labelledby="activity-title">
@@ -63,8 +97,8 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
 
       <div className="heatmap-scroll">
         <div className="heatmap-content">
-          <div className="month-row" style={{ gridTemplateColumns: `repeat(${weeks.length}, 13px)` }}>
-            {monthMarkers.map((marker: MonthMarker) => (
+          <div className="month-row" style={{ gridTemplateColumns: `repeat(${visibleWeeks.length}, 13px)` }}>
+            {visibleMonthMarkers.map((marker: MonthMarker) => (
               <span
                 key={marker.label}
                 style={{ gridColumnStart: marker.column }}
@@ -78,26 +112,29 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
               <span>日</span><span /><span>二</span><span /><span>四</span><span /><span>六</span>
             </div>
             <div className="heatmap-grid">
-              {weeks.map((week: HeatmapWeek) => (
+              {visibleWeeks.map((week: HeatmapWeek) => (
                 <div className="heatmap-week" key={week.key}>
-                  {week.cells.map((cell: HeatmapCell) => (
+                  {week.cells.map((cell: HeatmapCell) => {
+                    const isFuture: boolean = readOnly && cell.date > today;
+                    return (
                     <Tooltip key={cell.date}>
                       <TooltipTrigger asChild>
                         <button
                           aria-label={`${cell.date}，学习 ${cell.totalMinutes} 分钟`}
-                          className={`heat-cell intensity-${cell.intensity}`}
-                          disabled={!cell.inYear}
+                          className={`heat-cell intensity-${cell.intensity}${isFuture ? ' heat-cell-future' : ''}`}
+                          disabled={!cell.inYear || isFuture}
                           onClick={(): void => onSelectDate(cell.date)}
                           type="button"
                         />
                       </TooltipTrigger>
-                      {cell.inYear && (
+                      {cell.inYear && !isFuture && (
                         <TooltipContent sideOffset={8}>
                           {formatDisplayDate(cell.date)} · {cell.totalMinutes} 分钟
                         </TooltipContent>
                       )}
                     </Tooltip>
-                  ))}
+                    );
+                  })}
                 </div>
               ))}
             </div>
