@@ -16,37 +16,37 @@ interface StatItem {
 function formatDuration(minutes: number): string {
   const hours: number = Math.floor(minutes / 60);
   const remainingMinutes: number = minutes % 60;
-  if (hours === 0) return `${remainingMinutes} 分`;
-  if (remainingMinutes === 0) return `${hours} 小时`;
-  return `${hours} 小时 ${remainingMinutes} 分`;
+  if (hours === 0) return `${remainingMinutes}m`;
+  if (remainingMinutes === 0) return `${hours}h`;
+  return `${hours}h ${remainingMinutes}m`;
 }
 
 const DashboardStats: React.FC<DashboardStatsProps> = ({ stats }) => {
   const items: StatItem[] = [
     {
-      label: '累计学习天数',
-      value: `${stats.totalDays} 天`,
-      detail: '有学习记录的日期',
+      label: 'Study days',
+      value: `${stats.totalDays} days`,
+      detail: 'Dates with a check-in',
     },
     {
-      label: '累计学习时长',
+      label: 'Total study time',
       value: formatDuration(stats.totalMinutes),
-      detail: '老友记、阅读及其他',
+      detail: 'Friends, reading, and more',
     },
     {
-      label: '最长单日',
+      label: 'Best day',
       value: formatDuration(stats.peakMinutes),
-      detail: stats.peakDate ? formatDisplayDate(stats.peakDate) : '等待第一次打卡',
+      detail: stats.peakDate ? formatDisplayDate(stats.peakDate) : 'Waiting for the first check-in',
     },
     {
-      label: '当前连续天数',
-      value: `${stats.currentStreak} 天`,
-      detail: '今天或昨天仍在连续',
+      label: 'Current streak',
+      value: `${stats.currentStreak} days`,
+      detail: 'Today or yesterday keeps it alive',
     },
     {
-      label: '最长连续天数',
-      value: `${stats.longestStreak} 天`,
-      detail: '你的历史最佳纪录',
+      label: 'Best streak',
+      value: `${stats.longestStreak} days`,
+      detail: 'Your all-time best',
     },
   ];
   const icons: React.ReactNode[] = [
@@ -61,7 +61,7 @@ const DashboardStats: React.FC<DashboardStatsProps> = ({ stats }) => {
     <section
       className="stats-strip"
       data-ai-section-type="card-stat"
-      aria-label="学习统计"
+      aria-label="Study statistics"
     >
       {items.map((item: StatItem, index: number) => (
         <div className="stat-item" key={item.label}>

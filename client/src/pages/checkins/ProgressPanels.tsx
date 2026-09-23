@@ -27,10 +27,10 @@ interface CompositionItem {
 }
 
 function formatMinutes(minutes: number): string {
-  if (minutes < 60) return `${minutes} 分钟`;
+  if (minutes < 60) return `${minutes} min`;
   const hours: number = Math.floor(minutes / 60);
   const remainder: number = minutes % 60;
-  return remainder > 0 ? `${hours} 小时 ${remainder} 分` : `${hours} 小时`;
+  return remainder > 0 ? `${hours}h ${remainder}m` : `${hours}h`;
 }
 
 const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly = false }) => {
@@ -42,7 +42,7 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
   const composition: CompositionItem[] = [
     {
       key: 'friends',
-      label: '老友记',
+      label: 'Friends',
       minutes: items.reduce(
         (sum: number, item: StudyCheckin): number => sum + item.friendsMinutes,
         0,
@@ -51,7 +51,7 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
     },
     {
       key: 'reading',
-      label: '英语原著',
+      label: 'English originals',
       minutes: items.reduce(
         (sum: number, item: StudyCheckin): number => sum + item.readingMinutes,
         0,
@@ -60,7 +60,7 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
     },
     {
       key: 'other',
-      label: '其他英语',
+      label: 'Other English',
       minutes: items.reduce(
         (sum: number, item: StudyCheckin): number => sum + item.otherMinutes,
         0,
@@ -79,9 +79,9 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
         <div className="section-heading compact-heading">
           <div>
             <p className="eyebrow">FOCUS</p>
-            <h2 id="composition-title">学习构成</h2>
+            <h2 id="composition-title">Study mix</h2>
           </div>
-          <span className="muted-total">共 {formatMinutes(grandTotal)}</span>
+          <span className="muted-total">{formatMinutes(grandTotal)} total</span>
         </div>
         <div className="composition-list">
           {composition.map((item: CompositionItem) => {
@@ -110,9 +110,9 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
         <div className="section-heading compact-heading">
           <div>
             <p className="eyebrow">RECENT NOTES</p>
-            <h2 id="recent-title">最近打卡</h2>
+            <h2 id="recent-title">Recent check-ins</h2>
           </div>
-          <span className="muted-total">最近 {recentItems.length} 条</span>
+          <span className="muted-total">Latest {recentItems.length}</span>
         </div>
         {recentItems.length === 0 ? (
           <Empty className="recent-empty">
@@ -120,9 +120,9 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
               <EmptyMedia className="empty-media" variant="icon">
                 <Sparkles />
               </EmptyMedia>
-              <EmptyTitle>第一格还等着你点亮</EmptyTitle>
+              <EmptyTitle>Your first square is waiting</EmptyTitle>
               <EmptyDescription>
-                完成今天的老友记或原著阅读后，记下一次打卡。
+                Finish some Friends or reading today, then add a check-in.
               </EmptyDescription>
             </EmptyHeader>
           </Empty>
@@ -138,23 +138,23 @@ const ProgressPanels: React.FC<ProgressPanelsProps> = ({ items, onEdit, readOnly
                   <div className="recent-badges">
                     {item.friendsMinutes > 0 && (
                       <Badge className="study-badge" variant="outline">
-                        <MessageCircle /> 老友记 {item.friendsMinutes} 分
+                        <MessageCircle /> Friends {item.friendsMinutes} min
                       </Badge>
                     )}
                     {item.readingMinutes > 0 && (
                       <Badge className="study-badge" variant="outline">
-                        <BookOpen /> 阅读 {item.readingMinutes} 分
+                        <BookOpen /> Reading {item.readingMinutes} min
                       </Badge>
                     )}
                     {item.otherMinutes > 0 && (
                       <Badge className="study-badge" variant="outline">
-                        <Clock3 /> 其他 {item.otherMinutes} 分
+                        <Clock3 /> Other {item.otherMinutes} min
                       </Badge>
                     )}
                   </div>
                   <p className="recent-title">
                     {item.friendsProgress || item.bookTitle || item.readingProgress
-                      || '完成一次英语学习'}
+                      || 'English study complete'}
                   </p>
                   {(item.takeaway || item.notes) && (
                     <p className="recent-note">{item.takeaway || item.notes}</p>

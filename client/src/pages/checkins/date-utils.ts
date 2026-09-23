@@ -61,7 +61,7 @@ export function getShanghaiToday(): string {
 
 export function formatDisplayDate(date: string): string {
   const value: Date = fromDateString(date);
-  return new Intl.DateTimeFormat('zh-CN', {
+  return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
     weekday: 'short',
@@ -181,7 +181,11 @@ export function buildHeatmap(
       const column: number = Math.floor(
         (firstDay.getTime() - calendarStart.getTime()) / DAY_MS / 7,
       ) + 1;
-      return { label: `${monthIndex + 1}月`, column };
+      return {
+        label: new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' })
+          .format(firstDay),
+        column,
+      };
     },
   );
   return { weeks, monthMarkers };

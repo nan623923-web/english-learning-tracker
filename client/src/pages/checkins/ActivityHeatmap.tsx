@@ -72,11 +72,11 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       <div className="section-heading">
         <div>
           <p className="eyebrow">DAILY RHYTHM</p>
-          <h2 id="activity-title">英语学习活动</h2>
+          <h2 id="activity-title">Study activity</h2>
         </div>
         <div className="year-switcher">
           <Button
-            aria-label="上一年"
+            aria-label="Previous year"
             className="year-button"
             onClick={(): void => onYearChange(year - 1)}
             size="icon"
@@ -86,7 +86,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
           </Button>
           <span>{year}</span>
           <Button
-            aria-label="下一年"
+            aria-label="Next year"
             className="year-button"
             onClick={(): void => onYearChange(year + 1)}
             size="icon"
@@ -111,7 +111,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
           </div>
           <div className="heatmap-body">
             <div className="weekday-labels" aria-hidden="true">
-              <span>日</span><span /><span>二</span><span /><span>四</span><span /><span>六</span>
+              <span>S</span><span /><span>T</span><span /><span>T</span><span /><span>S</span>
             </div>
             <div className="heatmap-grid">
               {visibleWeeks.map((week: HeatmapWeek) => (
@@ -122,7 +122,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
                     <Tooltip key={cell.date}>
                       <TooltipTrigger asChild>
                         <button
-                          aria-label={`${cell.date}，学习 ${cell.totalMinutes} 分钟`}
+                          aria-label={`${cell.date}, ${cell.totalMinutes} minutes studied`}
                           className={`heat-cell intensity-${cell.intensity}${isFuture ? ' heat-cell-future' : ''}`}
                           disabled={!cell.inYear || isFuture}
                           onClick={(): void => onSelectDate(cell.date)}
@@ -131,7 +131,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
                       </TooltipTrigger>
                       {cell.inYear && !isFuture && (
                         <TooltipContent sideOffset={8}>
-                          {formatDisplayDate(cell.date)} · {cell.totalMinutes} 分钟
+                          {formatDisplayDate(cell.date)} · {cell.totalMinutes} min
                         </TooltipContent>
                       )}
                     </Tooltip>
@@ -145,12 +145,12 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       </div>
 
       <div className="heatmap-legend">
-        <span>少</span>
+        <span>Less</span>
         {[0, 1, 2, 3, 4].map((level: number) => (
           <span className={`heat-cell intensity-${level}`} key={level} />
         ))}
-        <span>多</span>
-        <span className="ml-auto">{readOnly ? '悬停或点击日期查看学习时长' : '点击任意日期即可补记或编辑'}</span>
+        <span>More</span>
+        <span className="ml-auto">{readOnly ? 'Hover or select a date to view study time' : 'Select a date to add or edit a check-in'}</span>
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { BookOpen } from 'lucide-react';
 import ActivityHeatmap from '../client/src/pages/checkins/ActivityHeatmap';
 import DashboardStats from '../client/src/pages/checkins/DashboardStats';
 import ProgressPanels from '../client/src/pages/checkins/ProgressPanels';
+import WeeklyStudyChart from '../client/src/pages/checkins/WeeklyStudyChart';
 import { calculateStats, getShanghaiToday } from '../client/src/pages/checkins/date-utils';
 import type { StudyCheckin } from '../shared/api.interface';
 import records from './records.json';
@@ -31,23 +32,24 @@ function PublicPage() {
       <div className="ambient-glow ambient-glow-right" />
       <div className="dashboard-shell">
         <header className="dashboard-header">
-          <div className="brand-mark"><img src={avatar} alt="nan 的头像" /></div>
+          <div className="brand-mark"><img src={avatar} alt="nan's avatar" /></div>
           <p className="profile-kicker">MY ENGLISH ARCHIVE</p>
           <h1>nan</h1>
           <p className="profile-subtitle"><BookOpen /> Friends × English Originals</p>
-          <span className="public-status">持续学习中</span>
+          <span className="public-status">IN PROGRESS</span>
         </header>
         <ActivityHeatmap items={items} year={year} onYearChange={setYear} onSelectDate={setSelected} readOnly />
-        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `学习 ${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} 分钟` : '暂无打卡记录'}</p>}
+        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} min studied` : 'No check-in yet'}</p>}
+        <WeeklyStudyChart items={items} />
         <DashboardStats stats={stats} />
-        <section className="dashboard-panel history-panel" aria-label="历史学习累计">
-          <div><p className="eyebrow">BEFORE THE DAILY LOG</p><h2>历史学习累计</h2></div>
-          <strong>{Math.floor(records.history.minutes / 60)} 小时 {records.history.minutes % 60} 分</strong>
-          <p>{records.history.description}</p>
-          <small>截至 {records.history.asOf} · 已计入总时长，按日统计从后续打卡开始。</small>
+        <section className="dashboard-panel history-panel" aria-label="Historical study total">
+          <div><p className="eyebrow">BEFORE THE DAILY LOG</p><h2>Historical total</h2></div>
+          <strong>{Math.floor(records.history.minutes / 60)}h {records.history.minutes % 60}m</strong>
+          <p>Season 1 (25 episodes) plus the first 11 episodes of Season 2, estimated at four passes per episode; two English-subtitle passes in Season 2 at 1.2× speed.</p>
+          <small>Through {records.history.asOf} · Included in the total; daily tracking begins afterwards.</small>
         </section>
         <ProgressPanels items={items} onEdit={() => {}} readOnly />
-        <footer className="dashboard-footer">每一次输入，都在让英语变得更自然。<br /><span>记录更新于 {records.updatedOn}</span></footer>
+        <footer className="dashboard-footer">Every input makes English feel more natural.<br /><span>Updated {records.updatedOn}</span></footer>
       </div>
     </main>
   );
