@@ -1,5 +1,5 @@
 {
-  "updatedOn": "2026-09-24",
+  "updatedOn": "2026-09-26",
   "history": {
     "minutes": 3087,
     "description": "第一季25集＋第二季前11集，每集按4遍估算；第二季两遍英文字幕按1.2倍速。",
@@ -84,6 +84,22 @@
       "readingMinutes": 0,
       "otherMinutes": 0,
       "progress": "既有单词复习＋老友记 S2E20 再看1遍；S2E21 第1、2遍",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-24",
+      "friendsMinutes": 45,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E19、S2E20 各最后一遍（完成）",
+      "takeaway": null
+    },
+    {
+      "date": "2026-09-25",
+      "friendsMinutes": 97,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "老友记 S2E21、S2E22 第1遍＋S2E22 第2遍",
       "takeaway": null
     }
   ]
