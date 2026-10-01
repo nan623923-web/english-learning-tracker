@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 
 import type { StudyCheckin, StudyCheckinInput } from '@shared/api.interface';
 import {
@@ -47,6 +48,7 @@ interface CheckinDraft {
   readingProgress: string;
   takeaway: string;
   notes: string;
+  isMakeup: boolean;
 }
 
 const EMPTY_DRAFT: CheckinDraft = {
@@ -58,6 +60,7 @@ const EMPTY_DRAFT: CheckinDraft = {
   readingProgress: '',
   takeaway: '',
   notes: '',
+  isMakeup: false,
 };
 
 function draftFromCheckin(checkin: StudyCheckin | null): CheckinDraft {
@@ -71,6 +74,7 @@ function draftFromCheckin(checkin: StudyCheckin | null): CheckinDraft {
     readingProgress: checkin.readingProgress ?? '',
     takeaway: checkin.takeaway ?? '',
     notes: checkin.notes ?? '',
+    isMakeup: checkin.isMakeup,
   };
 }
 
@@ -111,6 +115,10 @@ const CheckinDialog: React.FC<CheckinDialogProps> = ({
     }));
   };
 
+  const setMakeup = (checked: boolean): void => {
+    setDraft((previous: CheckinDraft): CheckinDraft => ({ ...previous, isMakeup: checked }));
+  };
+
   const chooseDate = (date: Date | undefined): void => {
     if (!date) return;
     const value: string = calendarDateToString(date);
@@ -134,6 +142,7 @@ const CheckinDialog: React.FC<CheckinDialogProps> = ({
       readingProgress: draft.readingProgress,
       takeaway: draft.takeaway,
       notes: draft.notes,
+      isMakeup: draft.isMakeup,
     };
     const values: number[] = [
       input.friendsMinutes,
@@ -168,6 +177,20 @@ const CheckinDialog: React.FC<CheckinDialogProps> = ({
         </DialogHeader>
 
         <div className="checkin-fields">
+          <div className="field-group field-wide">
+            <div className="makeup-option">
+              <Checkbox
+                checked={draft.isMakeup}
+                id="is-makeup"
+                onCheckedChange={(checked: boolean): void => setMakeup(checked)}
+              />
+              <div>
+                <Label htmlFor="is-makeup">Use a Check-in Pass</Label>
+                <p>Make-up entries stay visible but do not extend a streak or earn another pass.</p>
+              </div>
+            </div>
+          </div>
+
           <div className="field-group field-wide">
             <Label>学习日期</Label>
             <Popover>
