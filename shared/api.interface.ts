@@ -9,6 +9,7 @@ export interface StudyCheckin {
   readingProgress: string | null;
   takeaway: string | null;
   notes: string | null;
+  isMakeup: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -22,6 +23,7 @@ export interface StudyCheckinInput {
   readingProgress?: string;
   takeaway?: string;
   notes?: string;
+  isMakeup?: boolean;
 }
 
 export interface StudyCheckinListResponse {
