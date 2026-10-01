@@ -9,6 +9,14 @@ export interface DashboardStats {
   longestStreak: number;
 }
 
+export interface CheckinPassStats {
+  earned: number;
+  used: number;
+  available: number;
+  currentNaturalStreak: number;
+  daysToNextPass: number;
+}
+
 export interface HeatmapCell {
   date: string;
   inYear: boolean;
@@ -88,6 +96,7 @@ export function calculateStats(items: StudyCheckin[]): DashboardStats {
     (item: StudyCheckin): boolean => totalMinutes(item) > 0,
   );
   const sortedDates: string[] = activeItems
+    .filter((item: StudyCheckin): boolean => !item.isMakeup)
     .map((item: StudyCheckin): string => item.studyDate)
     .sort((a: string, b: string): number => a.localeCompare(b));
   const uniqueDates: string[] = Array.from(new Set<string>(sortedDates));
@@ -133,6 +142,43 @@ export function calculateStats(items: StudyCheckin[]): DashboardStats {
     peakDate,
     currentStreak,
     longestStreak,
+  };
+}
+
+export function calculateCheckinPasses(items: StudyCheckin[]): CheckinPassStats {
+  const naturalDates: string[] = Array.from(new Set(
+    items
+      .filter((item: StudyCheckin): boolean => totalMinutes(item) > 0 && !item.isMakeup)
+      .map((item: StudyCheckin): string => item.studyDate),
+  )).sort((a: string, b: string): number => a.localeCompare(b));
+  let earned: number = 0;
+  let running: number = 0;
+  let previous: string | null = null;
+  naturalDates.forEach((date: string): void => {
+    running = previous && date === shiftDate(previous, 1) ? running + 1 : 1;
+    if (running % 7 === 0) earned += 1;
+    previous = date;
+  });
+  const latestDate: string | undefined = naturalDates.at(-1);
+  const today: string = getShanghaiToday();
+  let currentNaturalStreak: number = latestDate === today || latestDate === shiftDate(today, -1) ? 1 : 0;
+  if (currentNaturalStreak > 0 && latestDate) {
+    let cursor: string = latestDate;
+    for (let index: number = naturalDates.length - 2; index >= 0; index -= 1) {
+      if (naturalDates[index] !== shiftDate(cursor, -1)) break;
+      currentNaturalStreak += 1;
+      cursor = naturalDates[index];
+    }
+  }
+  const used: number = items.filter(
+    (item: StudyCheckin): boolean => item.isMakeup && totalMinutes(item) > 0,
+  ).length;
+  return {
+    earned,
+    used,
+    available: Math.max(earned - used, 0),
+    currentNaturalStreak,
+    daysToNextPass: currentNaturalStreak === 0 ? 7 : 7 - (currentNaturalStreak % 7),
   };
 }
 
