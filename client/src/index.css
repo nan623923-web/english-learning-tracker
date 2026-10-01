@@ -609,6 +609,36 @@ button.heat-cell:focus-visible {
   color: #bd7474;
 }
 
+.checkin-passes-panel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 22px 28px;
+}
+
+.checkin-passes-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--learning-accent-border);
+  border-radius: 14px;
+  color: var(--learning-neon);
+  background: var(--learning-accent-surface);
+}
+
+.checkin-passes-icon svg { width: 22px; height: 22px; }
+.checkin-passes-main .eyebrow { margin: 0; }
+.checkin-passes-main h2 { margin: 4px 0 6px; font-size: 18px; }
+.checkin-passes-main > p:last-child { margin: 0; color: #8d969e; font-size: 12px; line-height: 1.55; }
+.checkin-passes-stats { display: grid; justify-items: end; }
+.checkin-passes-stats strong { color: var(--learning-neon); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 32px; line-height: 1; }
+.checkin-passes-stats span { color: #cbd3d9; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
+.checkin-passes-stats small { margin-top: 5px; color: #77818a; font-size: 10px; }
+.makeup-option { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid #293138; border-radius: 10px; background: #151b1f; }
+.makeup-option p { margin: 4px 0 0; color: #8d969e; font-size: 12px; line-height: 1.5; }
+
 @keyframes pulse {
   0%, 100% { opacity: 0.45; }
   50% { opacity: 1; }
@@ -696,6 +726,9 @@ button.heat-cell:focus-visible {
   .checkin-fields {
     grid-template-columns: 1fr;
   }
+
+  .checkin-passes-panel { grid-template-columns: auto 1fr; padding: 20px; }
+  .checkin-passes-stats { grid-column: 1 / -1; justify-items: start; padding-left: 62px; }
 
   .field-wide {
     grid-column: auto;
