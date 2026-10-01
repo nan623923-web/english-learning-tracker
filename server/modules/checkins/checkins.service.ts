@@ -83,6 +83,7 @@ export class CheckinsService {
       readingProgress: this.normalizeText(input.readingProgress),
       takeaway: this.normalizeText(input.takeaway),
       notes: this.normalizeText(input.notes),
+      isMakeup: input.isMakeup === true,
       updatedAt: now,
     };
 
@@ -101,6 +102,7 @@ export class CheckinsService {
             readingProgress: this.normalizeText(input.readingProgress),
             takeaway: this.normalizeText(input.takeaway),
             notes: this.normalizeText(input.notes),
+            isMakeup: input.isMakeup === true,
             updatedAt: now,
           },
         })
@@ -193,6 +195,7 @@ export class CheckinsService {
       readingProgress: row.readingProgress,
       takeaway: row.takeaway,
       notes: row.notes,
+      isMakeup: row.isMakeup,
       createdAt: row.createdAt.toISOString(),
       updatedAt: row.updatedAt.toISOString(),
     };
