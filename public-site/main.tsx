@@ -5,7 +5,8 @@ import ActivityHeatmap from '../client/src/pages/checkins/ActivityHeatmap';
 import DashboardStats from '../client/src/pages/checkins/DashboardStats';
 import ProgressPanels from '../client/src/pages/checkins/ProgressPanels';
 import WeeklyStudyChart from '../client/src/pages/checkins/WeeklyStudyChart';
-import { calculateStats, getShanghaiToday } from '../client/src/pages/checkins/date-utils';
+import CheckinPasses from '../client/src/pages/checkins/CheckinPasses';
+import { calculateCheckinPasses, calculateStats, getShanghaiToday } from '../client/src/pages/checkins/date-utils';
 import type { StudyCheckin } from '../shared/api.interface';
 import records from './records.json';
 import avatar from '../client/src/assets/profile-avatar.jpg';
@@ -17,6 +18,7 @@ const items: StudyCheckin[] = records.days.map(day => ({
   friendsMinutes: day.friendsMinutes, readingMinutes: day.readingMinutes,
   otherMinutes: day.otherMinutes, friendsProgress: day.progress,
   bookTitle: null, readingProgress: null, takeaway: day.takeaway, notes: null,
+  isMakeup: 'isMakeup' in day && day.isMakeup === true,
   createdAt: `${day.date}T00:00:00Z`, updatedAt: `${day.date}T00:00:00Z`,
 }));
 
@@ -25,6 +27,7 @@ function PublicPage() {
   const [selected, setSelected] = useState('');
   const dailyStats = calculateStats(items);
   const stats = { ...dailyStats, totalMinutes: dailyStats.totalMinutes + records.history.minutes };
+  const passes = calculateCheckinPasses(items);
   const selectedItem = items.find(item => item.studyDate === selected);
   return (
     <main className="learning-dashboard">
@@ -42,6 +45,7 @@ function PublicPage() {
         {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} min studied` : 'No check-in yet'}</p>}
         <WeeklyStudyChart items={items} />
         <DashboardStats stats={stats} />
+        <CheckinPasses passes={passes} />
         <section className="dashboard-panel history-panel" aria-label="Historical study total">
           <div><p className="eyebrow">BEFORE THE DAILY LOG</p><h2>Historical total</h2></div>
           <strong>{Math.floor(records.history.minutes / 60)}h {records.history.minutes % 60}m</strong>
