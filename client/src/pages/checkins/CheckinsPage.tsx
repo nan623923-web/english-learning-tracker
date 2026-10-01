@@ -10,8 +10,9 @@ import ActivityHeatmap from './ActivityHeatmap';
 import CheckinDialog from './CheckinDialog';
 import DashboardStats from './DashboardStats';
 import type { DashboardStats as DashboardStatsValue } from './date-utils';
-import { calculateStats, getShanghaiToday } from './date-utils';
+import { calculateCheckinPasses, calculateStats, getShanghaiToday } from './date-utils';
 import ProgressPanels from './ProgressPanels';
+import CheckinPasses from './CheckinPasses';
 import avatar from '@/assets/profile-avatar.jpg';
 
 const CheckinsPage: React.FC = () => {
@@ -27,6 +28,7 @@ const CheckinsPage: React.FC = () => {
     (): DashboardStatsValue => calculateStats(items),
     [items],
   );
+  const passes = useMemo(() => calculateCheckinPasses(items), [items]);
 
   const loadData = async (): Promise<void> => {
     setLoading(true);
@@ -129,6 +131,7 @@ const CheckinsPage: React.FC = () => {
         )}
 
         <DashboardStats stats={stats} />
+        <CheckinPasses passes={passes} />
 
         {loading ? (
           <div className="dashboard-panel loading-panel">
