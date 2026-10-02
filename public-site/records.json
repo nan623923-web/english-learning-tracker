@@ -1,5 +1,5 @@
 {
-  "updatedOn": "2026-10-01",
+  "updatedOn": "2026-10-02",
   "history": {
     "minutes": 3087,
     "description": "第一季25集＋第二季前11集，每集按4遍估算；第二季两遍英文字幕按1.2倍速。",
@@ -133,6 +133,14 @@
       "otherMinutes": 0,
       "progress": "英语原著阅读",
       "takeaway": "总用时49分钟。"
+    },
+    {
+      "date": "2026-10-02",
+      "friendsMinutes": 0,
+      "readingMinutes": 75,
+      "otherMinutes": 0,
+      "progress": "英文原著《原则》阅读",
+      "takeaway": "总用时75分钟。"
     }
   ]
 }
