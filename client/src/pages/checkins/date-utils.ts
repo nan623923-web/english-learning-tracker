@@ -95,8 +95,8 @@ export function calculateStats(items: StudyCheckin[]): DashboardStats {
   const activeItems: StudyCheckin[] = items.filter(
     (item: StudyCheckin): boolean => totalMinutes(item) > 0,
   );
-  const sortedDates: string[] = activeItems
-    .filter((item: StudyCheckin): boolean => !item.isMakeup)
+  const sortedDates: string[] = items
+    .filter((item: StudyCheckin): boolean => totalMinutes(item) > 0 || item.isMakeup)
     .map((item: StudyCheckin): string => item.studyDate)
     .sort((a: string, b: string): number => a.localeCompare(b));
   const uniqueDates: string[] = Array.from(new Set<string>(sortedDates));
@@ -136,7 +136,7 @@ export function calculateStats(items: StudyCheckin[]): DashboardStats {
   });
 
   return {
-    totalDays: uniqueDates.length,
+    totalDays: new Set(activeItems.map((item: StudyCheckin): string => item.studyDate)).size,
     totalMinutes: accumulatedMinutes,
     peakMinutes,
     peakDate,
