@@ -12,7 +12,7 @@ const CheckinPasses: React.FC<CheckinPassesProps> = ({ passes }) => (
     <div className="checkin-passes-main">
       <p className="eyebrow">STREAK REWARD</p>
       <h2 id="checkin-passes-title">Check-in Passes</h2>
-      <p>Every 7-day natural streak earns 1 pass. Make-up entries do not extend a streak or earn a pass.</p>
+      <p>Every 7-day natural streak earns 1 pass. Make-up entries keep your check-in streak intact but do not count toward pass rewards.</p>
     </div>
     <div className="checkin-passes-stats">
       <strong>{passes.available}</strong>
