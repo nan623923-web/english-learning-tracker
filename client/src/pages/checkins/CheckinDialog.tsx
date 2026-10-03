@@ -186,7 +186,7 @@ const CheckinDialog: React.FC<CheckinDialogProps> = ({
               />
               <div>
                 <Label htmlFor="is-makeup">Use a Check-in Pass</Label>
-                <p>Make-up entries stay visible but do not extend a streak or earn another pass.</p>
+                <p>Make-up entries keep your check-in streak intact but do not count toward pass rewards.</p>
               </div>
             </div>
           </div>
