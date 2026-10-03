@@ -33,7 +33,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
   } = buildHeatmap(year, items);
   const activeDates: string[] = items
     .filter((item: StudyCheckin): boolean => (
-      item.studyDate.startsWith(`${year}-`) && totalMinutes(item) > 0
+      item.studyDate.startsWith(`${year}-`) && (totalMinutes(item) > 0 || item.isMakeup)
     ))
     .map((item: StudyCheckin): string => item.studyDate)
     .sort((left: string, right: string): number => left.localeCompare(right));
@@ -122,8 +122,8 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
                     <Tooltip key={cell.date}>
                       <TooltipTrigger asChild>
                         <button
-                          aria-label={`${cell.date}, ${cell.totalMinutes} minutes studied`}
-                          className={`heat-cell intensity-${cell.intensity}${isFuture ? ' heat-cell-future' : ''}`}
+                          aria-label={`${cell.date}, ${cell.totalMinutes} minutes studied${cell.checkin?.isMakeup ? ', Make-up check-in' : ''}`}
+                          className={`heat-cell intensity-${cell.intensity}${cell.checkin?.isMakeup ? ' heat-cell-makeup' : ''}${isFuture ? ' heat-cell-future' : ''}`}
                           disabled={!cell.inYear || isFuture}
                           onClick={(): void => onSelectDate(cell.date)}
                           type="button"
@@ -132,6 +132,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
                       {cell.inYear && !isFuture && (
                         <TooltipContent sideOffset={8}>
                           {formatDisplayDate(cell.date)} · {cell.totalMinutes} min
+                          {cell.checkin?.isMakeup && ' · Make-up check-in'}
                         </TooltipContent>
                       )}
                     </Tooltip>
@@ -150,6 +151,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
           <span className={`heat-cell intensity-${level}`} key={level} />
         ))}
         <span>More</span>
+        <span className="heat-cell heat-cell-makeup" /><span>Make-up</span>
         <span className="ml-auto">{readOnly ? 'Hover or select a date to view study time' : 'Select a date to add or edit a check-in'}</span>
       </div>
     </section>
