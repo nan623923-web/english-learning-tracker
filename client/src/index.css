@@ -609,6 +609,11 @@ button.heat-cell:focus-visible {
   color: #bd7474;
 }
 
+.heat-cell.heat-cell-makeup {
+  background: var(--learning-accent-surface);
+  border: 1px dashed var(--learning-neon);
+}
+
 .checkin-passes-panel {
   display: grid;
   grid-template-columns: auto 1fr auto;
