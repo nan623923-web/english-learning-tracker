@@ -42,7 +42,7 @@ function PublicPage() {
           <span className="public-status">IN PROGRESS</span>
         </header>
         <ActivityHeatmap items={items} year={year} onYearChange={setYear} onSelectDate={setSelected} readOnly />
-        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} min studied` : 'No check-in yet'}</p>}
+        {selected && <p className="selected-day" role="status">{selected} · {selectedItem ? `${selectedItem.friendsMinutes + selectedItem.readingMinutes + selectedItem.otherMinutes} min studied${selectedItem.isMakeup ? ' · Make-up check-in (1 pass used)' : ''}` : 'No check-in yet'}</p>}
         <WeeklyStudyChart items={items} />
         <DashboardStats stats={stats} />
         <CheckinPasses passes={passes} />
