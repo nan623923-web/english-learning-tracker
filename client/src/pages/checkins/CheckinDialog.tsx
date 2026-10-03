@@ -157,7 +157,7 @@ const CheckinDialog: React.FC<CheckinDialogProps> = ({
       setValidationError('学习时长请输入 0 到 1440 的整数');
       return;
     }
-    if (values.reduce((sum: number, value: number): number => sum + value, 0) === 0) {
+    if (!draft.isMakeup && values.reduce((sum: number, value: number): number => sum + value, 0) === 0) {
       setValidationError('请至少记录 1 分钟学习时长');
       return;
     }
