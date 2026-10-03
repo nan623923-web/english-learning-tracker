@@ -170,9 +170,9 @@ export function calculateCheckinPasses(items: StudyCheckin[]): CheckinPassStats 
       cursor = naturalDates[index];
     }
   }
-  const used: number = items.filter(
-    (item: StudyCheckin): boolean => item.isMakeup && totalMinutes(item) > 0,
-  ).length;
+  const used: number = new Set(items.filter(
+    (item: StudyCheckin): boolean => item.isMakeup,
+  ).map((item: StudyCheckin): string => item.studyDate)).size;
   return {
     earned,
     used,
