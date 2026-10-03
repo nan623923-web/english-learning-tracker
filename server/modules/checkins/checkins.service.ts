@@ -173,7 +173,7 @@ export class CheckinsService {
       (total: number, value: number): number => total + value,
       0,
     );
-    if (totalMinutes <= 0) {
+    if (totalMinutes <= 0 && input.isMakeup !== true) {
       throw new BadRequestException('请至少填写 1 分钟学习时长');
     }
   }
