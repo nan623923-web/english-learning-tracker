@@ -127,6 +127,24 @@
       "takeaway": "总用时46分钟；本次具体集数忘记记录。"
     },
     {
+      "date": "2026-09-29",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "Make-up check-in",
+      "takeaway": "使用1张补签卡；当天未学习，学习时长0分钟；不计入连续打卡奖励。",
+      "isMakeup": true
+    },
+    {
+      "date": "2026-09-30",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "Make-up check-in",
+      "takeaway": "使用1张补签卡；当天未学习，学习时长0分钟；不计入连续打卡奖励。",
+      "isMakeup": true
+    },
+    {
       "date": "2026-10-01",
       "friendsMinutes": 0,
       "readingMinutes": 49,
