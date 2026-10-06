@@ -1,5 +1,5 @@
 {
-  "updatedOn": "2026-10-02",
+  "updatedOn": "2026-10-06",
   "history": {
     "minutes": 3087,
     "description": "第一季25集＋第二季前11集，每集按4遍估算；第二季两遍英文字幕按1.2倍速。",
@@ -159,6 +159,38 @@
       "otherMinutes": 0,
       "progress": "英文原著《原则》阅读",
       "takeaway": "总用时75分钟。"
+    },
+    {
+      "date": "2026-10-03",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 0,
+      "progress": "No study",
+      "takeaway": "当天未学习，未补签。"
+    },
+    {
+      "date": "2026-10-04",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 60,
+      "progress": "English study · 60 min",
+      "takeaway": "具体学习内容未说明，时长暂未分类。"
+    },
+    {
+      "date": "2026-10-05",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 40,
+      "progress": "English study · 40 min",
+      "takeaway": "具体学习内容未说明，时长暂未分类。"
+    },
+    {
+      "date": "2026-10-06",
+      "friendsMinutes": 0,
+      "readingMinutes": 0,
+      "otherMinutes": 120,
+      "progress": "Friends S3E01 · Passes 1 & 2 + English originals",
+      "takeaway": "总用时120分钟，含老友记第三季第1集第一、二遍和英文原著阅读；未提供分项时长，暂按合计记录，不估算拆分。"
     }
   ]
 }
