@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -98,7 +98,7 @@ const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       </div>
 
       <div className="heatmap-scroll" ref={heatmapScrollRef}>
-        <div className="heatmap-content">
+        <div className="heatmap-content" style={{ '--heatmap-weeks': visibleWeeks.length } as CSSProperties}>
           <div className="month-row" style={{ gridTemplateColumns: `repeat(${visibleWeeks.length}, 13px)` }}>
             {visibleMonthMarkers.map((marker: MonthMarker) => (
               <span
