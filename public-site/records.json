@@ -1,5 +1,5 @@
 {
-  "updatedOn": "2026-10-07",
+  "updatedOn": "2026-10-08",
   "history": {
     "minutes": 3087,
     "description": "第一季25集＋第二季前11集，每集按4遍估算；第二季两遍英文字幕按1.2倍速。",
@@ -199,6 +199,14 @@
       "otherMinutes": 0,
       "progress": "English originals · Reading",
       "takeaway": "总用时80分钟；未提供书名。"
+    },
+    {
+      "date": "2026-10-08",
+      "friendsMinutes": 0,
+      "readingMinutes": 50,
+      "otherMinutes": 0,
+      "progress": "English originals · Reading",
+      "takeaway": "总用时50分钟；未提供书名。"
     }
   ]
 }
